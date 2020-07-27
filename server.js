@@ -21,11 +21,22 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
   useNewUrlParser: true,
 });
 
-app.put("/api/workouts", (req, res) => {
+app.post("/api/workouts", (req, res) => {
+  db.Workout.create({})
+    .then((dbWorkout) => {
+      res.json(dbWorkout);
+      console.log(dbWorkout);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
+app.put("/api/workouts/:id", (req, res) => {
   db.Workout.findByIdAndUpdate(
-    params.id,
+    req.params.id,
     {
-      $push: { exercises: body },
+      $push: { exercises: req.body },
     },
     {
       new: true,
