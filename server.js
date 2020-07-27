@@ -66,6 +66,18 @@ app.get("/exercise", (req, res) => {
   res.sendFile(path.join(__dirname, "./public/exercise.html"));
 });
 
+app.get("/api/workouts/range", (req, res) => {
+  db.Workout.find({})
+    .limit(5)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
+
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
 });
