@@ -21,6 +21,18 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
   useNewUrlParser: true,
 });
 
+// HTML ROUTES
+app.get("/exercise", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/exercise.html"));
+});
+app.get("/index", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/index.html"));
+});
+app.get("/stats", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/stats.html"));
+});
+
+// API ROUTES
 app.post("/api/workouts", (req, res) => {
   db.Workout.create({})
     .then((dbWorkout) => {
@@ -62,10 +74,6 @@ app.get("/api/workouts", (req, res) => {
     });
 });
 
-app.get("/exercise", (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/exercise.html"));
-});
-
 app.get("/api/workouts/range", (req, res) => {
   db.Workout.find({})
     .limit(5)
@@ -76,7 +84,6 @@ app.get("/api/workouts/range", (req, res) => {
       res.json(err);
     });
 });
-
 
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
